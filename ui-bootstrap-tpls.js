@@ -1191,6 +1191,15 @@ function ($compile, $parse, $document, $position, dateFilter, datepickerPopupCon
           return viewValue;
         } else if (angular.isString(viewValue)) {
           var date = new Date(viewValue);
+
+          if (viewValue.indexOf('/') > 0) {
+            if (dateFormat === 'dd/MM/yyyy') {
+              var arys = viewValue.split('/');
+              var newViewValue = [arys[1], arys[0], arys[2]].join('/')
+              date = new Date(newViewValue);
+            }
+          }
+
           if (isNaN(date)) {
             ngModel.$setValidity('date', false);
             return undefined;
